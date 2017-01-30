@@ -8,8 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.example.cho.sumofnaviandfragment.sortjoin.MasterFragment;
 import com.example.cho.sumofnaviandfragment.sortjoin.OwnerFragment;
 import com.example.cho.sumofnaviandfragment.sortjoin.UserFragment;
@@ -59,54 +59,23 @@ public class JoinFragment extends Fragment {
         }
     }
 
-    private Button btnFirstJoin;
-    private Button btnSecondJoin;
-    private Button btnThirdJoin;
-
     private ViewPager pager;
-
-    private Fragment masterFragment;
-    private Fragment ownerFragment;
-    private Fragment userFragment;
+    private PagerSlidingTabStrip tabs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_join, container, false);
 
-        masterFragment = new MasterFragment();
-        ownerFragment = new OwnerFragment();
-        userFragment = new UserFragment();
-
-        btnFirstJoin = (Button) view.findViewById(R.id.btnFirstJoin);
-        btnFirstJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(0);
-            }
-        });
-
-        btnSecondJoin = (Button) view.findViewById(R.id.btnSecondJoin);
-        btnSecondJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(1);
-            }
-        });
-
-        btnThirdJoin = (Button) view.findViewById(R.id.btnThirdJoin);
-        btnThirdJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(2);
-            }
-        });
-
         // View Pager 선언
         pager = (ViewPager) view.findViewById(R.id.pager);
         pager.setAdapter(new PagerAdapter(getActivity().getSupportFragmentManager()));
+        pager.setOffscreenPageLimit(3);
 
         // 처음으로 0번째 Fragment를 보여줌
         pager.setCurrentItem(0);
+
+        tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
 
         // Title 설정
         getActivity().setTitle("Join Fragment");
@@ -115,9 +84,17 @@ public class JoinFragment extends Fragment {
         return view;
     }
 
+    // 페이지마다 보여줄 타이틀 지정
+    private String[] pageTitle = {"Page 1", "Page 2", "Page 3"};
+
     private class PagerAdapter extends FragmentPagerAdapter {
         public PagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pageTitle[position];
         }
 
         /**
@@ -130,11 +107,11 @@ public class JoinFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if(position == 0) {
-                return masterFragment;
+                return new MasterFragment();
             } else if(position == 1) {
-                return ownerFragment;
+                return new OwnerFragment();
             } else {
-                return userFragment;
+                return new UserFragment();
             }
         }
 

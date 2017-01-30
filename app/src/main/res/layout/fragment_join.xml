@@ -5,31 +5,10 @@
     android:orientation="vertical"
     tools:context="com.example.cho.sumofnaviandfragment.JoinFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnFirstJoin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="관리자"/>
-
-        <Button
-            android:id="@+id/btnSecondJoin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="점주"/>
-
-        <Button
-            android:id="@+id/btnThirdJoin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="일반인"/>
-
-    </LinearLayout>
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_height="48dp"
+        android:layout_width="match_parent"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
