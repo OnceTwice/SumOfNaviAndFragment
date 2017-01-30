@@ -2,9 +2,17 @@ package com.example.cho.sumofnaviandfragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.example.cho.sumofnaviandfragment.sortjoin.MasterFragment;
+import com.example.cho.sumofnaviandfragment.sortjoin.OwnerFragment;
+import com.example.cho.sumofnaviandfragment.sortjoin.UserFragment;
 
 public class JoinFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -51,11 +59,92 @@ public class JoinFragment extends Fragment {
         }
     }
 
+    private Button btnFirstJoin;
+    private Button btnSecondJoin;
+    private Button btnThirdJoin;
+
+    private ViewPager pager;
+
+    private Fragment masterFragment;
+    private Fragment ownerFragment;
+    private Fragment userFragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_join, container, false);
+
+        masterFragment = new MasterFragment();
+        ownerFragment = new OwnerFragment();
+        userFragment = new UserFragment();
+
+        btnFirstJoin = (Button) view.findViewById(R.id.btnFirstJoin);
+        btnFirstJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pager.setCurrentItem(0);
+            }
+        });
+
+        btnSecondJoin = (Button) view.findViewById(R.id.btnSecondJoin);
+        btnSecondJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pager.setCurrentItem(1);
+            }
+        });
+
+        btnThirdJoin = (Button) view.findViewById(R.id.btnThirdJoin);
+        btnThirdJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pager.setCurrentItem(2);
+            }
+        });
+
+        // View Pager 선언
+        pager = (ViewPager) view.findViewById(R.id.pager);
+        pager.setAdapter(new PagerAdapter(getActivity().getSupportFragmentManager()));
+
+        // 처음으로 0번째 Fragment를 보여줌
+        pager.setCurrentItem(0);
+
+        // Title 설정
         getActivity().setTitle("Join Fragment");
 
-        return inflater.inflate(R.layout.fragment_join, container, false);
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    private class PagerAdapter extends FragmentPagerAdapter {
+        public PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        /**
+         * View Pager의 Fragment들은 각각 Index를 가짐
+         * Android OS로부터 요청된 Pager의 Index를 보내주면,
+         * 해당되는 Fragment를 리턴
+         * @param position
+         * @return
+         */
+        @Override
+        public Fragment getItem(int position) {
+            if(position == 0) {
+                return masterFragment;
+            } else if(position == 1) {
+                return ownerFragment;
+            } else {
+                return userFragment;
+            }
+        }
+
+        /**
+         * View Pager에 몇 개의 Fragment가 들어가는지 설정
+         * @return
+         */
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 }
